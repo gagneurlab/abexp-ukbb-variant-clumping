@@ -1,0 +1,2 @@
+plink_binary_files: "/s/project/uk_biobank/processed/WES_200K/ukbb_wes_200k"
+threshold: 0.0001
