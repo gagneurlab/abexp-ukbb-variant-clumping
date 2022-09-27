@@ -1,2 +1,4 @@
-plink_binary_files: "/s/project/uk_biobank/processed/WES_200K/ukbb_wes_200k"
-threshold: 0.0001
+plink_binary_files: "/s/project/uk_biobank/processed/clumping/30760/test/binary_fileset"
+plink2_binary_files: "/s/project/uk_biobank/processed/Imputation/ukbb_imputation"
+threshold: 0.00001
+p_val_col: "pval_meta_raw"
