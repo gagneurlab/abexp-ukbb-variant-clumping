@@ -6,7 +6,7 @@ rule download_GWAS_results:
 	output:
 		"{dir}sumstats_{id, [0-9]+}.tsv.gz"
 	shell:
-		f"wget -O {{output}} 'https://pan-ukb-us-east-1.s3.amazonaws.com/sumstats_flat_files/biomarkers-{{wildcards.id}}-both_sexes-irnt.tsv.bgz'"
+		f"wget -q -O {{output}} 'https://pan-ukb-us-east-1.s3.amazonaws.com/sumstats_flat_files/continuous-{{wildcards.id}}-both_sexes-irnt.tsv.bgz'"
 
 rule extract_GWAS_results:
 	input:
