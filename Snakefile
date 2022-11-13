@@ -6,7 +6,7 @@ rule download_GWAS_results:
 	output:
 		"{dir}sumstats_{id, [0-9]+}.tsv.gz"
 	shell:
-		f"wget -q -O {{output}} 'https://pan-ukb-us-east-1.s3.amazonaws.com/sumstats_flat_files/biomarkers-{{wildcards.id}}-both_sexes-irnt.tsv.bgz'"
+		f"wget -q -O {{output}} 'https://pan-ukb-us-east-1.s3.amazonaws.com/sumstats_flat_files/{config['trait_type']}-{{wildcards.id}}-both_sexes-irnt.tsv.bgz'"
 
 rule extract_GWAS_results:
 	input:
@@ -27,7 +27,7 @@ rule preprocess_p:
 	output:
 		"{dir}p_{id, [0-9]+}.tsv"
 	shell:
-		f"python preprocess.py {{input}} {{output}} {config['threshold']}"
+		f"python preprocess.py {{input}} {{output}} {config['p_threshold']}"
         
 rule get_var_list:
 	input:
@@ -52,7 +52,7 @@ rule clump:
 	output:
 		"{dir}GWAS_variants_{id, [0-9]+}.clumped.vars"
 	shell:
-		f"plink -bfile {{wildcards.dir}}subset_binary_{{wildcards.id}} --clump {{input.gwas_res}} --clump-snp-field varid --clump-field {config['p_val_col']} --clump-p1 {config['threshold']} --clump-p2 {config['threshold']} --out {{wildcards.dir}}GWAS_variants_{{wildcards.id}}" + "\n" + r"awk '{{print $3}}' {wildcards.dir}GWAS_variants_{wildcards.id}.clumped > {output}"
+		f"plink -bfile {{wildcards.dir}}subset_binary_{{wildcards.id}} --clump {{input.gwas_res}} --clump-snp-field varid --clump-field {config['p_val_col']} --clump-p1 {config['p_threshold']} --clump-p2 {config['p_threshold']} --clump-r2 {config['ld_threshold']} --clump-kb {config['kb_radius']} --out {{wildcards.dir}}GWAS_variants_{{wildcards.id}}" + "\n" + r"awk '{{print $3}}' {wildcards.dir}GWAS_variants_{wildcards.id}.clumped > {output}"
         
 rule get_mac:
 	input:
