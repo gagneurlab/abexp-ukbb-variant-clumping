@@ -4,7 +4,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 csv_file = sys.argv[1]
-parquet_file = f"{sys.argv[2]}.p"
+parquet_file = sys.argv[2]
 chunksize = 10000
 
 csv_stream = pd.read_csv(csv_file, sep='\t', chunksize=chunksize, low_memory=False)
