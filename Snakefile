@@ -1,7 +1,5 @@
 configfile: "config.yaml"
 
-import pandas as pd
-
 #Downloads GWAS-results from the UK-Biobank for a given phenocode. The trait_type specified in the config should match the trait_type of the phenocode.
 rule download_GWAS_results:
 	output:
