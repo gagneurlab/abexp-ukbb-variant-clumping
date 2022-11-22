@@ -8,11 +8,12 @@ conda activate prs
 ```
 or use the *environment.yaml* to create a new conda environment with the necessary dependencies.
 
-Clumping parameters can be set the config.yaml. See [this table](https://docs.google.com/spreadsheets/d/1AeeADtT0U1AukliiNyiVzVRdLYPkTbruQSk38DeutU8/edit#gid=903887429) for an overview of UKBB phenotype manifest. The *filename* in the config.yaml needs to be set as the value from the *filename* field (column BW) from the manifest for the desired phenotype. Then call the pipeline as follows to run the pipeline on the plink2 genomic data specified in the config.yaml:
+Clumping parameters can be specified in the config.yaml. The *filename* in the config.yaml needs to be set as the value from the *filename* field (column BW) from the [UKBB manifest](https://docs.google.com/spreadsheets/d/1AeeADtT0U1AukliiNyiVzVRdLYPkTbruQSk38DeutU8/edit#gid=903887429) for the desired phenotype.
+Call the pipeline as follows to run the clumping on the plink2 genomic data specified in the config.yaml:
 ```bash
 snakemake /some_dir/GWAS_variants_clumped_mac.parquet
 ```
 
-Then runtime of the pipeline strongly depends on the number of variants in the GWAS results.
+The runtime of the pipeline strongly depends on the number of variants in the GWAS results.
 
 See *./notebooks/gene_var_intersect.ipynb* for how to read the allele counts for some given gene ID after running the pipeline.
