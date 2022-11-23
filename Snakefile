@@ -59,7 +59,7 @@ rule get_var_list:
     output:
         "{dir}varlist.tsv"
     shell:   
-        r"awk '{{print $8}}' {input} > {output}"
+        r"awk '{{print $7}}' {input} > {output}"
 
 #Using plink2 the genotype data is extracted for the significant variants and written into plink1.9 format. This is necessary because plink2 does not support clumping (yet).
 rule create_subset_binary:
