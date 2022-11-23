@@ -29,12 +29,7 @@ rule extract_GWAS_results:
     output:
         "{dir}sumstats.tsv"
     shell:
-        r"""
-        gzip -d -k {input}
-        cut -f 1,2,3,4,8,13 {output} > {output}.temp
-        rm {output}
-        mv {output}.temp {output} 
-        """
+        "gzip -d -k {input}"
 
 #Uses a python script in order to convert the GWAS log p values into normal values. Also sets the variant IDs to match with the plink2 binary genotype data. Only variants with a p-value below the threshold are written into the output.
 rule preprocess_p:
