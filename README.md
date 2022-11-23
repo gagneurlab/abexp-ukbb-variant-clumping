@@ -8,12 +8,15 @@ conda activate prs
 ```
 or use the *environment.yaml* to create a new conda environment with the necessary dependencies.
 
-Clumping parameters can be specified in the config.yaml. The *filename* in the config.yaml needs to be set as the value from the *filename* field (column BW) from the [UKBB manifest](https://docs.google.com/spreadsheets/d/1AeeADtT0U1AukliiNyiVzVRdLYPkTbruQSk38DeutU8/edit#gid=903887429) for the desired phenotype.
-Call the pipeline as follows to run the clumping on the plink2 genomic data specified in the config.yaml:
+Clumping parameters, the location of the plink2 binary genotype data and the output directory are specified in the config.yaml.
+
+The *phenotype_annotation* csv-file specified in the config.yaml lists all phenotypes and GWAS-results which are to be clumped: The column *phenotype* contains the name of the trait and the column *GWAS_result_file* the filename of the GWAS-results as specified in the [UKBB manifest](https://docs.google.com/spreadsheets/d/1AeeADtT0U1AukliiNyiVzVRdLYPkTbruQSk38DeutU8/edit#gid=903887429) in the field *filename* (column BW).
+
+Call the pipeline as follows to run the clumping for all traits listed in the *phenotype_annotation* csv-file:
 ```bash
-snakemake /some_dir/GWAS_variants_clumped_mac.parquet
+snakemake -c16
 ```
 
-The runtime of the pipeline strongly depends on the number of variants in the GWAS results.
+The runtime of the pipeline strongly depends on the number of variants in the GWAS results that have a p-value below the *p_threshold*.
 
 See *./notebooks/gene_var_intersect.ipynb* for how to read the allele counts for some given gene ID after running the pipeline.
