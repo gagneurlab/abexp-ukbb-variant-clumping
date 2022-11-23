@@ -3,5 +3,5 @@ p_threshold: 0.0001
 ld_threshold: 0.5
 kb_radius: 250
 p_val_col: "pval_meta_raw"
-phenotype_annotation: "/data/ouga/home/ag_gagneur/lindnjon/ukbb_clump/phenotype_annotation.csv"
+phenotype_annotation: "phenotype_annotation.csv"
 output_dir: "/s/project/uk_biobank/processed/clumping"

@@ -1,7 +1,13 @@
 configfile: "config.yaml"
 import pandas as pd
 
-phenotype_df = pd.read_csv(config["phenotype_annotation"])
+phenotype_df = pd.read_csv(
+    config["phenotype_annotation"],
+    dtype={
+        "phenotype": "string",
+        "GWAS_result_file": "string",
+    }
+)
 
 rule all:
     input:

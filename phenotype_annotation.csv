@@ -1,2 +1,13 @@
 phenotype,GWAS_result_file
-30800_test,biomarkers-30800-both_sexes-irnt.tsv.bgz
+50,continuous-50-both_sexes-irnt.tsv.bgz
+2443,categorical-2443-both_sexes-2443.tsv.bgz
+4080,continuous-4080-both_sexes-irnt.tsv.bgz
+411.4,phecode-411.4-both_sexes.tsv.bgz
+21001,continuous-21001-both_sexes-irnt.tsv.bgz
+22127,categorical-22127-both_sexes-22127.tsv.bgz
+30710,biomarkers-30710-both_sexes-irnt.tsv.bgz
+30750,biomarkers-30750-both_sexes-irnt.tsv.bgz
+30760,biomarkers-30760-both_sexes-irnt.tsv.bgz
+30780,biomarkers-30780-both_sexes-irnt.tsv.bgz
+30800,biomarkers-30800-both_sexes-irnt.tsv.bgz
+30870,biomarkers-30870-both_sexes-irnt.tsv.bgz
