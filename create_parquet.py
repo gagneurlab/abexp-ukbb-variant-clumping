@@ -1,28 +1,56 @@
+#!/usr/bin/env python3
+
 import sys
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 
+import pyarrow as pa
+import pyarrow.parquet as pq
+import pyarrow.csv
+
 csv_file = sys.argv[1]
 parquet_file = sys.argv[2]
 
-col_names = pd.read_csv(csv_file, sep="\t",nrows=0).columns
+print("reading header...")
+with open(csv_file, "r") as fd:
+    header = fd.readline().rstrip().split("\t")
+print("done!")
 
 non_variant_mac_columns = {"FID", "IID", "PAT", "MAT", "SEX", "PHENOTYPE"}
-types_dict = {col: "Int8" for col in col_names if col not in non_variant_mac_columns}
+types_dict = {
+    **{col: pa.utf8() for col in non_variant_mac_columns},
+    **{col: pa.int8() for col in header if col not in non_variant_mac_columns},
+}
 
-chunksize = 10000
-csv_stream = pd.read_csv(csv_file, sep='\t', chunksize=chunksize, dtype=types_dict)
+read_options = pyarrow.csv.ReadOptions()
+read_options.use_threads = True
+read_options.column_names = header
+read_options.block_size = 2**30
+read_options.skip_rows = 1
+parse_options = pyarrow.csv.ParseOptions()
+parse_options.delimiter = "\t"
+convert_options = pyarrow.csv.ConvertOptions()
+convert_options.column_types = types_dict
 
-for i, chunk in enumerate(csv_stream):
-    print("Chunk", i)
-    if i == 0:
-        # Guess the schema of the CSV file from the first chunk
-        parquet_schema = pa.Table.from_pandas(df=chunk).schema
-        # Open a Parquet file for writing
-        parquet_writer = pq.ParquetWriter(parquet_file, parquet_schema, compression='snappy')
-    # Write CSV chunk to the parquet file
-    table = pa.Table.from_pandas(chunk, schema=parquet_schema)
-    parquet_writer.write_table(table)
+#chunksize = 100000
 
-parquet_writer.close()
+writer = None
+with pyarrow.csv.open_csv(
+    csv_file,
+    read_options=read_options,
+    parse_options=parse_options,
+    convert_options=convert_options,
+) as reader:
+    for i, next_chunk in enumerate(reader):
+        print(f"Chunk {i}")
+        if next_chunk is None:
+            break
+        if writer is None:
+            writer = pq.ParquetWriter(parquet_file, next_chunk.schema)
+        next_table = pa.Table.from_batches([next_chunk])
+        writer.write_table(next_table)
+writer.close()
+
+print("Done!")
+
